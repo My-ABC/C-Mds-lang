@@ -22,7 +22,6 @@ class Writer:
             yield 
         finally:
             self._indent -= 1
-            ...
 
     def get(self):
         return self._out
