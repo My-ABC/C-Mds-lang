@@ -3,7 +3,7 @@ INCLUDE_PATHS := -Isrc -Iinclude
 OUT_DIR := build
 CC := gcc
 
-.PHONY: all release debug build clean
+.PHONY: all release debug build regen-token clean
 
 all: release
 
@@ -40,3 +40,7 @@ $(OBJ_DIR):
 
 clean:
 	rm -rf $(OUT_DIR)
+
+regen-token:
+	@echo "Regenerating token..."
+	cd my-peg && python main.py ../Grammar/Tokens ../grammar.gram

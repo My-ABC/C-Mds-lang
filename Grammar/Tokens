@@ -1,0 +1,11 @@
+NUMBER
+
+POWER '**'
+
+ADD '+'
+SUB '-'
+MUL '*'
+DIV '/'
+
+LP '('
+RP ')'

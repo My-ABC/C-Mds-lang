@@ -21,6 +21,7 @@ set DEBUG=
 if not exist "%OUT_DIR%" mkdir "%OUT_DIR%"
 
 if "%1" == "clean" goto clean
+if "%1" == "regen-token" goto reg_token
 if "%1" == "-d" goto debug
 
 :release
@@ -61,6 +62,26 @@ if exist "%OUT_DIR%" rmdir /s /q "%OUT_DIR%"
 del /q *.pdb 2>nul
 del /q *.ilk 2>nul
 echo Clean completed
+goto end
+
+:reg_token
+echo Regenerating token...
+cd my-peg
+if not exist "..\Grammar\Tokens" (
+    echo Error: Tokens file not found!
+    goto end
+)
+if not exist "..\Grammar\grammar.gram" (
+    echo Error: Grammar file not found!
+    goto end
+)
+python main.py ..\Grammar\Tokens ..\grammar.gram
+if %errorlevel% neq 0 (
+    echo Error: Token generation failed!
+    cd ..
+    goto end
+)
+cd ..
 goto end
 
 :end
