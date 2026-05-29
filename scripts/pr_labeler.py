@@ -9,7 +9,6 @@ def main():
     
     g = Github(token)
     
-    # 获取当前仓库（GitHub Actions 会自动提供）
     repo_name = os.getenv("GITHUB_REPOSITORY")
     if not repo_name:
         print("❌ 找不到 GITHUB_REPOSITORY")
