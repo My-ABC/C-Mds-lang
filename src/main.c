@@ -29,6 +29,7 @@ int main() {
             free(tokens);
             break;
         }
+        
         printf("Token: type=%d, text='%s', start_pos=%d, end_pos=%d\n",
                tokens->type, tokens->text, tokens->start_pos, tokens->end_pos);
     }

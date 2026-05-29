@@ -24,6 +24,8 @@ class Gen_Token(Writer):
             if len(L) == 1:
                 self.kw[L[0]] = ''
             elif len(L) == 2:
+                if not (L[1].startswith('"') and L[1].endswith('"')):
+                    raise Exception('没有引号')
                 self.kw[L[0]] = L[1].split("'")[1] # 没去引号
 
             else:
