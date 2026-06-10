@@ -11,3 +11,4 @@ LP '('
 RP ')'
 
 POWER '**'
+PRINT 'print'

@@ -34,6 +34,18 @@ TokenInfo *get_next_token(const char* input, int *pos) {
         *pos += 1;
         return get_next_token(input, pos);
     }
+    if (strncmp(input + *pos, "print", 5) == 0) {
+        TokenInfo *token = malloc(sizeof(TokenInfo));
+        if (token == NULL) {
+            return NULL;
+        }
+        token->type = TOKEN_PRINT;
+        token->text = strndup(input + *pos, 5);
+        token->start_pos = *pos;
+        token->end_pos = *pos + 5;
+        *pos += 5;
+        return token;
+    }
     if (strncmp(input + *pos, "//", 2) == 0) {
         TokenInfo *token = malloc(sizeof(TokenInfo));
         if (token == NULL) {

@@ -21,6 +21,7 @@ static char* strndup(const char* s, size_t n) {
 #endif
 
 typedef enum _token {
+    TOKEN_PRINT,
     TOKEN_TDIV,
     TOKEN_POWER,
     TOKEN_ADD,

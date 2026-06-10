@@ -1,1 +1,33 @@
- 
+start: (NL)* stmt* (NL)* $
+
+stmt:
+    | expr NL
+    | print NL
+    | NL
+
+print: 'print' '(' expr ')'
+
+expr:
+    | expr '+' term
+    | expr '-' term
+    | term
+
+term:
+    | term '*' factor
+    | term '/' factor
+    | term '//' factor
+    | term '%' factor
+    | factor
+
+factor:
+    | '+' factor
+    | '-' factor
+    | power
+
+power:
+    | atoi ('**' factor)*
+    | atoi
+
+atoi:
+    | NUMBER
+    | '(' expr ')'
