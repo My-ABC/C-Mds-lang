@@ -24,16 +24,20 @@ class Gen_Token(Writer):
             if len(L) == 1:
                 self.kw[L[0]] = ''
             elif len(L) == 2:
-                if not (L[1].startswith('"') and L[1].endswith('"')):
+                if not (L[1].startswith("'") and L[1].endswith("'")):
                     raise Exception('没有引号')
                 self.kw[L[0]] = L[1].split("'")[1] # 没去引号
 
             else:
                 raise Exception(f"Invalid token line: {line}")
-    
+            
+        self.kw = dict(sorted(self.kw.items(), key=lambda x: len(x[0])))
+
     def gen_h(self):
         self.gen()
         self.clear()
+
+        self.write('#pragma once\n')
 
         self.write('typedef enum _token {\n') # TODO: 生成token枚举
         for k in self.kw.keys():
