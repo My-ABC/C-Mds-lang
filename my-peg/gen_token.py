@@ -31,42 +31,15 @@ class Gen_Token(Writer):
             else:
                 raise Exception(f"Invalid token line: {line}")
             
-        self.kw = dict(sorted(self.kw.items(), key=lambda x: len(x[0])))
+        self.kw = dict(sorted(self.kw.items(), key=lambda x: len(x[1]), reverse=True))
 
     def gen_h(self):
         self.gen()
         self.clear()
 
-        self.write('#pragma once\n')
+        self.write('// Gen by my-peg/gen_token.py\n\n')
 
-        self.write('typedef enum _token {\n') # TODO: 生成token枚举
-        for k in self.kw.keys():
-            with self.indent():
-                self.write(f'TOKEN_{k},\n')
-        with self.indent():
-            self.write('TOKEN_NL,\n')
-            self.write('TOKEN_EOF\n')
-        self.write('} TokenType;\n\n')
-
-        self.write("typedef struct _tokeninfo {\n") # TODO: 生成token信息结构体
-        with self.indent():
-            self.write("TokenType type;\n")
-            self.write("char *text;\n")
-            self.write("int start_pos;\n")
-            self.write("int end_pos;\n")
-        self.write("} TokenInfo;\n\n")
-
-        self.write("TokenInfo *get_next_token(const char* input, int *pos);\n")
-
-    def gen_c(self):
-        self.clear()  
-        self.gen()
-
-        self.write('#include <stdlib.h>\n')
-        self.write('#include <string.h>\n')
-        self.write('#include <ctype.h>\n')
-        self.write('#include "token.h"\n')
-        self.write('#include "hardtokens.h"\n\n')
+        self.write('#pragma once\n\n')
 
         self.write("#if defined(_WIN32) || defined(_WIN64)\n")
         self.write("static char* strndup(const char* s, size_t n) {\n")
@@ -87,6 +60,38 @@ class Gen_Token(Writer):
             self.write("return result;\n")
         self.write("}\n\n")
         self.write("#endif\n\n")
+
+        self.write('typedef enum _token {\n') # 生成token枚举
+        for k in self.kw.keys():
+            with self.indent():
+                self.write(f'TOKEN_{k},\n')
+        with self.indent():
+            self.write('TOKEN_NL,\n')
+            self.write('TOKEN_EOF\n')
+        self.write('} TokenType;\n\n')
+
+        self.write("typedef struct _tokeninfo {\n") # 生成token信息结构体
+        with self.indent():
+            self.write("TokenType type;\n")
+            self.write("char *text;\n")
+            self.write("int start_pos;\n")
+            self.write("int end_pos;\n")
+        self.write("} TokenInfo;\n\n")
+
+        self.write("TokenInfo *get_next_token(const char* input, int *pos);\n")
+        self.write("void free_token(TokenInfo *token);\n")
+
+    def gen_c(self):
+        self.clear()  
+        self.gen()
+
+        self.write('// Gen by my-peg/gen_token.py\n\n')
+
+        self.write('#include <stdlib.h>\n')
+        self.write('#include <string.h>\n')
+        self.write('#include <ctype.h>\n')
+        self.write('#include "token.h"\n')
+        self.write('#include "hardtokens.h"\n\n')
 
         self.write("TokenInfo *get_next_token(const char* input, int *pos) {\n") #TODO: 生成获取下一个token的函数声明
         with self.indent():
@@ -165,6 +170,15 @@ class Gen_Token(Writer):
                     self.write("}\n")
             self.write("return NULL;\n")
         self.write("}\n")
+
+        self.write('')
+
+        self.write('void free_token(TokenInfo *token) {\n')
+        with self.indent():
+            self.write('if (token == NULL) return;\n')
+            self.write('if (token->text) free(token->text);\n')
+            self.write('free(token);\n')
+        self.write('}\n')
 
     def get(self):
         return self._out

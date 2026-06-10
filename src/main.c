@@ -26,7 +26,7 @@ int main() {
             break;
         }
         if (tokens->type == TOKEN_EOF) {
-            free(tokens);
+            free_token(tokens);
             break;
         }
         

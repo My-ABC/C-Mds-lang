@@ -1,11 +1,13 @@
 NUMBER
 
-POWER '**'
-
 ADD '+'
 SUB '-'
 MUL '*'
 DIV '/'
+TDIV '//'
+MOD '%'
 
 LP '('
 RP ')'
+
+POWER '**'
