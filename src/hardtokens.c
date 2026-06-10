@@ -4,24 +4,6 @@
 #include "token.h"
 #include "hardtokens.h"
 
-#if defined(_WIN32) || defined(_WIN64)
-static char* strndup(const char* s, size_t n) {
-    size_t len = 0;
-    const char* p = s;
-    while (len < n && *p) {
-        len++;
-        p++;
-    }
-    char* result = (char*)malloc(len + 1);
-    if (result) {
-        memcpy(result, s, len);
-        result[len] = '\0';
-    }
-    return result;
-}
-
-#endif
-
 TokenInfo* get_token_NUMBER(const char* input, int *pos) {
     if (isdigit(input[*pos])) {
         int start_pos = *pos;

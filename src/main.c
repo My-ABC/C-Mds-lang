@@ -14,7 +14,7 @@
 int main() {
     char *inp = "1 + 1";
     TokenInfo *tokens;
-    int *pos = malloc(sizeof(int) * 3);
+    int *pos = malloc(sizeof(int));
     if (pos == NULL) {
         return -1;
     }
@@ -32,7 +32,13 @@ int main() {
         
         printf("Token: type=%d, text='%s', start_pos=%d, end_pos=%d\n",
                tokens->type, tokens->text, tokens->start_pos, tokens->end_pos);
+    
+        free_token(tokens);
     }
+
+    tokens = NULL;
+    free(pos);
+    
 
     return 0;
 }
