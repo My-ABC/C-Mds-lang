@@ -10,10 +10,12 @@ TokenInfo* get_token_NUMBER(const char* input, int *pos) {
         while (isdigit(input[*pos])) {
             *pos += 1;
         }
+
         TokenInfo *token = malloc(sizeof(TokenInfo));
         if (token == NULL) {
             return NULL;
         }
+        
         token->type = TOKEN_NUMBER;
         token->text = strndup(input + start_pos, *pos - start_pos);
         token->start_pos = start_pos;
